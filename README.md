@@ -5,6 +5,14 @@ Self-contained, pretty and versatile `.tmux.conf` configuration file.
 
 ![Screenshot](https://cloud.githubusercontent.com/assets/553208/19740585/85596a5a-9bbf-11e6-8aa1-7c8d9829c008.gif)
 
+Updated by KC
+------------
+
+2022.07.21
+
+⭐ ⭐ ⭐ Customized right status panel with current kubernetes contexts(namespace & cluster name) by KC ⭐ ⭐ ⭐
+![Screenshot-added-kubernetes-context](./right-status-k8s-context.png)
+
 Installation
 ------------
 
