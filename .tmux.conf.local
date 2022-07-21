@@ -238,7 +238,7 @@ tmux_conf_theme_right_separator_sub='\uE0B3'
 #     - #{username_ssh}
 tmux_conf_theme_status_left=" ❐ #S "
 # tmux_conf_theme_status_left=" ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} "
-tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{loadavg} #{?battery_status,#{battery_status},}#{?battery_bar, #{battery_hbar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{kube_namespace} | 🄺 #{kube_cluster} "
+tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{loadavg} #{?battery_status,#{battery_status},}#{?battery_bar, #{battery_hbar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{kube_namespace}| 🄺 #{kube_cluster} "
 #tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
 
 # status left style
@@ -427,11 +427,11 @@ tmux_conf_uninstall_plugins_on_reload=true
 # }
 #
 # kube_cluster() {
-#   kubectl config view --minify -o json | jq -r '.contexts[].context.cluster' 2>/dev/null
+#   kubectl config view --minify -o jsonpath='{.contexts[].context.cluster}' 2>/dev/null
 # }
 #
 # kube_namespace() {
-#   kubectl config view --minify -o json | jq -r '.contexts[].context.namespace' 2>/dev/null
+#   kubectl config view --minify -o jsonpath='{.contexts[].context.namespace}' 2>/dev/null
 # }
 #
 # "$@"
