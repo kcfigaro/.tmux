@@ -20,25 +20,21 @@
 # new window retains current path, possible values are:
 #   - true
 #   - false (default)
-#   - disabled (do not modify new-window bindings)
 tmux_conf_new_window_retain_current_path=false
 
 # new pane retains current path, possible values are:
 #   - true (default)
 #   - false
-#   - disabled (do not modify split-window bindings)
 tmux_conf_new_pane_retain_current_path=true
 
-# new pane tries to reconnect ssh sessions, possible values are:
+# new pane tries to reconnect ssh sessions (experimental), possible values are:
 #   - true
 #   - false (default)
-#   - disabled (do not modify split-window bindings)
 tmux_conf_new_pane_reconnect_ssh=false
 
 # prompt for session name when creating a new session, possible values are:
 #   - true
 #   - false (default)
-#   - disabled (do not modify new-session bindings)
 tmux_conf_new_session_prompt=false
 
 
@@ -199,10 +195,15 @@ tmux_conf_theme_window_status_last_bg="$tmux_conf_theme_colour_2"
 tmux_conf_theme_window_status_last_attr="none"
 
 # status left/right sections separators
-tmux_conf_theme_left_separator_main=""
-tmux_conf_theme_left_separator_sub="|"
-tmux_conf_theme_right_separator_main=""
-tmux_conf_theme_right_separator_sub="|"
+tmux_conf_theme_left_separator_main='\uE0B0'
+tmux_conf_theme_left_separator_sub='\uE0B1'
+tmux_conf_theme_right_separator_main=' '
+tmux_conf_theme_right_separator_sub='\uE0B3'
+
+#tmux_conf_theme_left_separator_main=""
+#tmux_conf_theme_left_separator_sub="|"
+#tmux_conf_theme_right_separator_main=""
+#tmux_conf_theme_right_separator_sub="|"
 #tmux_conf_theme_left_separator_main='\uE0B0'  # /!\ you don't need to install Powerline
 #tmux_conf_theme_left_separator_sub='\uE0B1'   #   you only need fonts patched with
 #tmux_conf_theme_right_separator_main='\uE0B2' #   Powerline symbols or the standalone
@@ -235,8 +236,10 @@ tmux_conf_theme_right_separator_sub="|"
 #     - #{uptime_s}
 #     - #{username}
 #     - #{username_ssh}
-tmux_conf_theme_status_left=" ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} "
-tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
+tmux_conf_theme_status_left=" ❐ #S "
+# tmux_conf_theme_status_left=" ❐ #S | ↑#{?uptime_y, #{uptime_y}y,}#{?uptime_d, #{uptime_d}d,}#{?uptime_h, #{uptime_h}h,}#{?uptime_m, #{uptime_m}m,} "
+tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{loadavg} #{?battery_status,#{battery_status},}#{?battery_bar, #{battery_hbar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{kube_namespace} | 🄺 #{kube_cluster} "
+#tmux_conf_theme_status_right=" #{prefix}#{mouse}#{pairing}#{synchronized}#{?battery_status,#{battery_status},}#{?battery_bar, #{battery_bar},}#{?battery_percentage, #{battery_percentage},} , %R , %d %b | #{username}#{root} | #{hostname} "
 
 # status left style
 tmux_conf_theme_status_left_fg="$tmux_conf_theme_colour_6,$tmux_conf_theme_colour_7,$tmux_conf_theme_colour_8"
@@ -244,8 +247,8 @@ tmux_conf_theme_status_left_bg="$tmux_conf_theme_colour_9,$tmux_conf_theme_colou
 tmux_conf_theme_status_left_attr="bold,none,none"
 
 # status right style
-tmux_conf_theme_status_right_fg="$tmux_conf_theme_colour_12,$tmux_conf_theme_colour_13,$tmux_conf_theme_colour_14"
-tmux_conf_theme_status_right_bg="$tmux_conf_theme_colour_15,$tmux_conf_theme_colour_16,$tmux_conf_theme_colour_17"
+tmux_conf_theme_status_right_fg="$tmux_conf_theme_colour_12,$tmux_conf_theme_colour_14,$tmux_conf_theme_colour_14"
+tmux_conf_theme_status_right_bg="$tmux_conf_theme_colour_15,$tmux_conf_theme_colour_17,$tmux_conf_theme_colour_12"
 tmux_conf_theme_status_right_attr="none,none,bold"
 
 # pairing indicator
@@ -327,7 +330,6 @@ tmux_conf_theme_clock_style="24"
 # in copy mode, copying selection also copies to the OS clipboard
 #   - true
 #   - false (default)
-#   - disabled
 # on macOS, this requires installing reattach-to-user-namespace, see README.md
 # on Linux, this requires xsel or xclip
 tmux_conf_copy_to_os_clipboard=false
@@ -337,7 +339,7 @@ tmux_conf_copy_to_os_clipboard=false
 # this is the place to override or undo settings
 
 # increase history size
-#set -g history-limit 10000
+set -g history-limit 10000
 
 # start with mouse mode enabled
 #set -g mouse on
@@ -415,13 +417,21 @@ tmux_conf_uninstall_plugins_on_reload=true
 #
 # # /!\ do not "uncomment" the functions: the leading "# " characters are needed
 #
-# weather() {                                         # see https://github.com/chubin/wttr.in#one-line-output
-#   curl -f -s -m 2 'wttr.in?format=3' || printf '\n' # /!\ make sure curl is installed
-#   sleep 900                                         # sleep for 15 minutes, throttle network requests whatever the value of status-interval
+# weather() {
+#   curl -m 1 wttr.in?format=3 2>/dev/null
+#   sleep 900 # sleep for 15 minutes, throttle network requests whatever the value of status-interval
 # }
 #
 # online() {
 #   ping -c 1 1.1.1.1 >/dev/null 2>&1 && printf '✔' || printf '✘'
+# }
+#
+# kube_cluster() {
+#   kubectl config view --minify -o json | jq -r '.contexts[].context.cluster' 2>/dev/null
+# }
+#
+# kube_namespace() {
+#   kubectl config view --minify -o json | jq -r '.contexts[].context.namespace' 2>/dev/null
 # }
 #
 # "$@"
