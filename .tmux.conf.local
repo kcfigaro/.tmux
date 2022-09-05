@@ -427,7 +427,7 @@ tmux_conf_uninstall_plugins_on_reload=true
 # }
 #
 # kube_cluster() {
-#   kubectl config view --minify -o jsonpath='{.contexts[].context.cluster}' 2>/dev/null
+#   kubectl config view --minify -o jsonpath='{.contexts[].name}' 2>/dev/null
 # }
 #
 # kube_namespace() {
